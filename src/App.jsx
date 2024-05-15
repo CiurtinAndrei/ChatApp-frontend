@@ -1,6 +1,28 @@
+import React from 'react';
 import "./css/bootstrap.css"
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import router from './Routes.jsx';
 
-export default function App(){
+function App({Routes}) {
 
-  return <h1> gay </h1>
+  return (
+    <div> 
+        <div>
+         <>
+           <RouterProvider router={router}/>
+         </>
+
+        </div>
+         
+    
+
+    </div>
+
+
+
+    );
+
+
 }
+
+export default App;
