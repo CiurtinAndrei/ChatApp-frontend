@@ -5,8 +5,8 @@ const Home = () => {
     <div>
       <h1>Home Page</h1>
 
-      <Link to="/page">
-        <button>Go to Page</button>
+      <Link to="/test">
+        <button>Test Page</button>
       </Link>
 
     </div>
