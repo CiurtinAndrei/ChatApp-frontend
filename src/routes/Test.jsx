@@ -30,6 +30,7 @@ const Test = () => {
         const response = await axios.post(url, data, {
           headers: {
             'Content-Type': 'application/json',
+            'Authorization':`Bearer ${localStorage.getItem('token')}`
           },
         });
         console.log('Response:', response.data);
@@ -44,6 +45,7 @@ const Test = () => {
   };
 
   return (
+    <div>
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
@@ -70,6 +72,8 @@ const Test = () => {
         </Form>
       )}
     </Formik>
+
+    </div>
   );
 };
 
