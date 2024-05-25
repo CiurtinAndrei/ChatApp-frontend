@@ -24,7 +24,7 @@ const Login = () => {
         localStorage.setItem('token', response.data.token);
         console.log(localStorage.getItem('token'));
         setError('');
-        navigate('/');
+        navigate('/admin');
         // Redirect to another page or update UI
       } else {
         setError('Invalid username or password');
