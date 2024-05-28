@@ -39,16 +39,12 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Home Page</h1>
+      <h1>Admin Page</h1>
 
-      <Link to="/test">
-        <button>Test Page</button>
+      <Link to="/phototest">
+        <button>Send Photo to API</button>
       </Link>
-
-      <Link to="/login">
-        <button>Log in</button>
-      </Link>
-
+      
       <Link to="/register">
         <button>Create a New Account</button>
       </Link>
@@ -61,6 +57,15 @@ const Home = () => {
       </Link>
         </footer>
       )}
+      {!user && (
+        <footer>
+          <Link to="/login">
+        <button>Log In</button>
+      </Link>
+        </footer>
+      )}
+
+
     </div>
   );
 };

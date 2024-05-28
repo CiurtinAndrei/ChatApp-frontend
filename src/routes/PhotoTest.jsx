@@ -3,7 +3,7 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-const Test = () => {
+const PhotoTest = () => {
   const initialValues = {
     photo: null,
   };
@@ -77,4 +77,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default PhotoTest;

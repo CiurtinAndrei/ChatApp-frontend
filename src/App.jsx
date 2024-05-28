@@ -8,16 +8,13 @@ function App({Routes}) {
   return (
     <div> 
         <div>
+          
          <>
            <RouterProvider router={router}/>
          </>
 
         </div>
-         
-    
-
     </div>
-
 
 
     );
