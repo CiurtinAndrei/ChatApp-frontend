@@ -23,8 +23,38 @@ async function checkLogin() {
   }
 }
 
+async function checkAdmin() {
+  try {
+    const url = "http://localhost:32767/user/is-trusted";
+    const response = await axios.get(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+    });
+    return response.data.admin;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
 const Home = () => {
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const userData = await checkLogin();
+      setUser(userData);
+  
+      if (userData) {
+        const isAdmin = await checkAdmin();
+        setUser(prevUser => ({ ...prevUser, isAdmin }));
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -52,6 +82,7 @@ const Home = () => {
       {user && (
         <footer>
           <h1>You are logged in as: {user.username}</h1>
+          <p>{user.isAdmin ? 'You are an admin' : 'You are not an admin'}</p>
           <Link to="/logout">
         <button>Log Out</button>
       </Link>
