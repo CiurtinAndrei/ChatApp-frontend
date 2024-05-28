@@ -13,6 +13,7 @@ async function checkLogin() {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
+      localStorage.setItem('id', response.data.user.id);
       return response.data.user;
     } catch (error) {
       console.error(error);
