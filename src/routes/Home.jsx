@@ -6,7 +6,7 @@ import axios from 'axios';
 async function checkLogin() {
   if (localStorage.getItem('token') != null) {
     try {
-      const url = "http://localhost:32767/user/data";
+      const url = "http://localhost:32767/user/tokendata";
       const response = await axios.get(url, {
         headers: {
           'Content-Type': 'application/json',

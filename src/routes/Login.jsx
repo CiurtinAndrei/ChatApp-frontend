@@ -22,7 +22,6 @@ const Login = () => {
       if (loginJWT) {
         localStorage.removeItem('token');
         localStorage.setItem('token', response.data.token);
-        console.log(localStorage.getItem('token'));
         setError('');
         navigate('/');
         // Redirect to another page or update UI
