@@ -3,7 +3,7 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
-const PhotoTest = () => {
+const PfpTest = () => {
   const [photoID, setPhotoID] = useState('');
   const initialValues = {
     photo: null,
@@ -21,7 +21,7 @@ const PhotoTest = () => {
       const base64Image = reader.result;
       console.log('Base64 Image:', base64Image);
 
-      const url = 'http://localhost:32767/api/images/uploadb64';
+      const url = 'http://localhost:32767/user/setpfp';
       const data = {
         image: base64Image.split(",")[1],
         fileName: file.name,
@@ -34,7 +34,6 @@ const PhotoTest = () => {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           },
         });
-        setPhotoID(response.data.uploadedFileId);
         resetForm();
       } catch (error) {
         console.error('Error uploading image:', error.response ? error.response.data : error.message);
@@ -44,23 +43,6 @@ const PhotoTest = () => {
     };
 
     reader.readAsDataURL(file);
-  };
-
-  const delPhoto = async (event) => {
-    event.preventDefault();
-
-    const url = `http://localhost:32767/api/images/delete/${photoID}`;
-    try {
-      await axios.delete(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-      });
-      setPhotoID('');  // Clear the photo ID after deletion
-    } catch (error) {
-      console.error('Error deleting image:', error.response ? error.response.data : error.message);
-    }
   };
 
   return (
@@ -73,7 +55,7 @@ const PhotoTest = () => {
         {({ setFieldValue, isSubmitting }) => (
           <Form>
             <div>
-              <label htmlFor="photo">Upload Photo</label>
+              <label htmlFor="photo">Upload PFP</label>
               <input
                 id="photo"
                 name="photo"
@@ -91,18 +73,8 @@ const PhotoTest = () => {
           </Form>
         )}
       </Formik>
-
-      <form onSubmit={delPhoto}>
-        <label>
-          Photo ID:
-          <input type="text" value={photoID} readOnly />
-        </label>
-        <button type="submit" disabled={!photoID}>
-          Delete Photo
-        </button>
-      </form>
     </div>
   );
 };
 
-export default PhotoTest;
+export default PfpTest;
