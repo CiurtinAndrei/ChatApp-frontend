@@ -8,6 +8,7 @@ import Register from './routes/Register';
 import Logout from './routes/Logout';
 import MainPage from './routes/MainPage';
 import PfpTest from './routes/PfpTest';
+import AddFriend from './routes/AddFriend';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -20,7 +21,8 @@ const router = createBrowserRouter(
         <Route path = "login" element={<Login />} />
         <Route path = "register" element={<Register />} />
         <Route path = "logout" element={<Logout />} />
-        <Route path = "pfpTest" element={<PfpTest />} />
+        <Route path = "pfptest" element={<PfpTest />} />
+        <Route path = "addfriend" element={<AddFriend />} />
         </Route>
         
     )
