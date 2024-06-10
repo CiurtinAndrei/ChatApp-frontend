@@ -22,6 +22,7 @@ const Login = () => {
       if (loginJWT) {
         localStorage.removeItem('token');
         localStorage.setItem('token', response.data.token);
+        
         setError('');
         navigate('/admin');
         // Redirect to another page or update UI
