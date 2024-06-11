@@ -1,0 +1,4 @@
+.chat-section {
+    max-height: 90vh; /* Adjust this value based on your layout */
+    overflow-y: auto;
+  }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import "../../css/chatSection.css";
 
 function ChatSection({ groupId }) {
   const [messages, setMessages] = useState([]);
@@ -122,7 +123,7 @@ function ChatSection({ groupId }) {
 
   return (
     <div className="d-flex flex-column h-100">
-      <div className="flex-grow-1 p-3 overflow-auto">
+      <div className="flex-grow-1 p-3 chat-section">
         <div className="d-flex flex-column">
           {messages.length > 0 && messages.map((message, index) => (
             <div
@@ -138,7 +139,7 @@ function ChatSection({ groupId }) {
         </div>
       </div>
       <div className="p-3 border-top">
-        <form onSubmit={sendMessage} className="d-flex align-items-center">
+        <form onSubmit={sendMessage} className="d-flex align-items-center w-100">
           <input
             type="text"
             className="form-control"
