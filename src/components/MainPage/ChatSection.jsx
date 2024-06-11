@@ -7,6 +7,7 @@ function ChatSection({ groupId }) {
   const [newMessageContent, setNewMessageContent] = useState('');
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [error, setError] = useState(null);
+  const [showPhotoUpload, setShowPhotoUpload] = useState(false);
   const chatEndRef = useRef(null);
 
   const getMessages = async (id) => {
@@ -62,6 +63,7 @@ function ChatSection({ groupId }) {
         });
         setNewMessageContent('');
         setSelectedPhoto(null);
+        setShowPhotoUpload(false);
         getMessages(groupId);
       } catch (error) {
         console.error('Error uploading photo and sending message:', error.response ? error.response.data : error.message);
@@ -75,7 +77,7 @@ function ChatSection({ groupId }) {
     e.preventDefault();
 
     if (newMessageContent.trim() === '') {
-      setError('Message content cannot be empty');
+      setError('');
       return;
     }
 
@@ -138,7 +140,7 @@ function ChatSection({ groupId }) {
           <div ref={chatEndRef}></div>
         </div>
       </div>
-      <div className="p-3 border-top">
+      <div className="p-3 border-top position-relative">
         <form onSubmit={sendMessage} className="d-flex align-items-center w-100">
           <input
             type="text"
@@ -147,14 +149,22 @@ function ChatSection({ groupId }) {
             value={newMessageContent}
             onChange={(e) => setNewMessageContent(e.target.value)}
           />
-          <input
-            type="file"
-            accept="image/*"
-            className="form-control ms-2"
-            onChange={(e) => setSelectedPhoto(e.target.files[0])}
-          />
+          <button type="button" className="btn btn-secondary ms-2" onClick={() => setShowPhotoUpload(!showPhotoUpload)}>
+            Media
+          </button>
           <button type="submit" className="btn btn-primary ms-2">Send</button>
         </form>
+        {showPhotoUpload && (
+          <div className="photo-upload-popup">
+            <input
+              type="file"
+              accept="image/*"
+              className="form-control"
+              onChange={(e) => setSelectedPhoto(e.target.files[0])}
+            />
+            <button type="button" className="btn btn-secondary mt-2" onClick={savePhoto}>Upload Photo</button>
+          </div>
+        )}
         {error && <div className="text-danger mt-2">{error}</div>}
       </div>
     </div>
