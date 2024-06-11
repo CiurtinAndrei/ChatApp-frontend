@@ -4,6 +4,7 @@ import axios from 'axios';
 function ChatSection({ groupId }) {
   const [messages, setMessages] = useState([]);
   const [newMessageContent, setNewMessageContent] = useState('');
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [error, setError] = useState(null);
   const chatEndRef = useRef(null);
 
@@ -22,32 +23,83 @@ function ChatSection({ groupId }) {
     }
   };
 
+  const savePhoto = async () => {
+    if (!selectedPhoto) {
+      setError('Please select a photo to upload');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64Image = reader.result.split(",")[1];
+      const url = 'http://localhost:32767/api/images/uploadb64';
+      const data = {
+        image: base64Image,
+        fileName: selectedPhoto.name,
+      };
+      try {
+        const response = await axios.post(url, data, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+        });
+        const photoID = response.data.uploadedFileId;
+
+        const messageUrl = 'http://localhost:32767/api/messages/new';
+        const requestBody = {
+          content: newMessageContent,
+          conversationId: groupId,
+          mediaId: photoID,
+        };
+
+        await axios.post(messageUrl, requestBody, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setNewMessageContent('');
+        setSelectedPhoto(null);
+        getMessages(groupId);
+      } catch (error) {
+        console.error('Error uploading photo and sending message:', error.response ? error.response.data : error.message);
+      }
+    };
+
+    reader.readAsDataURL(selectedPhoto);
+  };
+
   const sendMessage = async (e) => {
     e.preventDefault();
 
     if (newMessageContent.trim() === '') {
-      setError('');
+      setError('Message content cannot be empty');
       return;
     }
 
-    const url = 'http://localhost:32767/api/messages/new';
-    const requestBody = {
-      content: newMessageContent,
-      conversationId: groupId, // Assuming the API needs the groupId
-    };
+    if (selectedPhoto) {
+      await savePhoto();
+    } else {
+      const url = 'http://localhost:32767/api/messages/new';
+      const requestBody = {
+        content: newMessageContent,
+        conversationId: groupId,
+      };
 
-    try {
-      const response = await axios.post(url, requestBody, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      setNewMessageContent(''); // Clear the input field
-      getMessages(groupId); // Refresh messages
-    } catch (error) {
-      setError(error.response ? error.response.data.error : error.message);
-      console.error('Error sending message:', error.response ? error.response.data : error.message);
+      try {
+        await axios.post(url, requestBody, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setNewMessageContent(''); // Clear the input field
+        getMessages(groupId); // Refresh messages
+      } catch (error) {
+        setError(error.response ? error.response.data.error : error.message);
+        console.error('Error sending message:', error.response ? error.response.data : error.message);
+      }
     }
   };
 
@@ -77,20 +129,28 @@ function ChatSection({ groupId }) {
               key={index}
               className={`alert ${message.senderId === 'me' ? 'alert-primary align-self-end' : 'alert-secondary'}`}
             >
-              <strong>{message.senderId.username}</strong>: {message.content}
+              <strong>{message.senderId.username}</strong>
+              <div>{message.content}</div>
+              {message.mediaId && <img src={`http://localhost:32767/api/images/view/resized/${message.mediaId}`} alt="Message media" className="img-fluid mt-2" />}
             </div>
           ))}
           <div ref={chatEndRef}></div>
         </div>
       </div>
       <div className="p-3 border-top">
-        <form onSubmit={sendMessage} className="d-flex">
+        <form onSubmit={sendMessage} className="d-flex align-items-center">
           <input
             type="text"
             className="form-control"
             placeholder="Scrie un mesaj..."
             value={newMessageContent}
             onChange={(e) => setNewMessageContent(e.target.value)}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            className="form-control ms-2"
+            onChange={(e) => setSelectedPhoto(e.target.files[0])}
           />
           <button type="submit" className="btn btn-primary ms-2">Send</button>
         </form>
