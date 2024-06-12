@@ -10,6 +10,7 @@ import MainPage from './routes/MainPage';
 import PfpTest from './routes/PfpTest';
 import AddFriend from './routes/AddFriend';
 import CreateGroup from './routes/CreateGroup';
+import JoinGroup from './routes/JoinGroup';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
         <Route path = "pfptest" element={<PfpTest />} />
         <Route path = "addfriend" element={<AddFriend />} />
         <Route path = "creategroup" element={<CreateGroup />} />
+        <Route path = "joingroup" element={<JoinGroup />} />
         </Route>
         
     )

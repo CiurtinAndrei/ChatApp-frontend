@@ -1,0 +1,33 @@
+.sidebar-container {
+    width: 250px; /* Adjust width as needed */
+    height: 100%; /* Ensure sidebar covers full height */
+    background-color: #f0f0f0;
+    padding: 20px;
+    position: fixed; /* Keeps sidebar fixed on the left */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto; /* Enable scrolling if content exceeds height */
+    z-index: 100; /* Ensure sidebar appears above other content */
+  }
+  
+  .join-group-button,
+  .create-group-button {
+    margin-bottom: 10px; /* Adjust margin between buttons */
+  }
+  
+  .list-group-item {
+    cursor: pointer;
+  }
+  
+  .join-group-button {
+    position: sticky; /* Fixed position relative to parent (sidebar) */
+    top: 20px; /* Adjust top position as needed */
+  }
+  
+  .create-group-button {
+    position: absolute; /* Positioned absolutely at the bottom of the sidebar */
+    bottom: 20px; /* Adjust bottom position as needed */
+    left: 20px; /* Adjust left position as needed */
+    right: 20px; /* Adjust right position as needed */
+  }

@@ -119,7 +119,7 @@ const CreateGroup = () => {
                 multiple={true}
               >
                 {friends.length > 0 ? friends.map(friend => (
-                  <option key={friend._id} value={friend._id}>{friend.username}</option>
+                  <option key={friend.id} value={friend.id}>{friend.username}</option>
                 )) : <option disabled>No friends available</option>}
               </Field>
               <ErrorMessage name="memberlist" component="div" className="text-danger" />

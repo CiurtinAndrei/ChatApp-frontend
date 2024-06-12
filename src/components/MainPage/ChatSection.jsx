@@ -113,15 +113,31 @@ function ChatSection({ groupId }) {
   }, [groupId]);
 
   useEffect(() => {
-    if (chatEndRef.current) {
-      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Scroll to the bottom after a short delay to allow messages to render
+    const timeoutId = setTimeout(() => {
+      scrollToBottom();
+    }, 100); // Adjust the delay time as needed
+
+    return () => clearTimeout(timeoutId);
   }, [messages]);
+
+  const scrollToBottom = () => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'auto', block: 'end' });
+    }
+  };
 
   // Cleanup messages when groupId changes
   useEffect(() => {
     setMessages([]);
   }, [groupId]);
+
+  // Function to convert UTC timestamp to GMT+3:00
+  const convertToGMTPlus3 = (utcTimestamp) => {
+    const utcDate = new Date(utcTimestamp);
+    const gmtPlus3Date = new Date(utcDate.getTime());
+    return gmtPlus3Date.toLocaleString();
+  };
 
   return (
     <div className="d-flex flex-column h-100">
@@ -132,7 +148,10 @@ function ChatSection({ groupId }) {
               key={index}
               className={`alert ${message.senderId === 'me' ? 'alert-primary align-self-end' : 'alert-secondary'}`}
             >
-              <strong>{message.senderId.username}</strong>
+              <div className="d-flex justify-content-between align-items-center">
+                <strong>{message.senderId.username}</strong>
+                <small>{convertToGMTPlus3(message.messageTimestamp)}</small>
+              </div>
               <div>{message.content}</div>
               {message.mediaId && <img src={`http://localhost:32767/api/images/view/resized/${message.mediaId}`} alt="Message media" className="img-fluid mt-2" />}
             </div>
@@ -145,7 +164,7 @@ function ChatSection({ groupId }) {
           <input
             type="text"
             className="form-control"
-            placeholder="Scrie un mesaj..."
+            placeholder="Write a message..."
             value={newMessageContent}
             onChange={(e) => setNewMessageContent(e.target.value)}
           />
