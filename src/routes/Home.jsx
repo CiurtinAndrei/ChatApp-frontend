@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import "../css/home.css"; // Ensure you have a CSS file for styling
 
 async function checkLogin() {
   if (localStorage.getItem('token') != null) {
@@ -23,7 +24,7 @@ async function checkLogin() {
   }
 }
 
-const ProfileSettings = () => {
+const Home = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -37,28 +38,36 @@ const ProfileSettings = () => {
   }, []);
 
   const handleLogout = () => {
-    // Implement logout functionality, clear local storage, etc.
     localStorage.removeItem('token');
     localStorage.removeItem('id');
-    setUser(null); // Clear user state
-    navigate('/');
+    setUser(null);
+  };
+
+  const visitMainPage = () => {
+    navigate('/mainpage');
   };
 
   return (
-    <div className="profile-settings p-4 border rounded bg-light">
-      {user ? (
-        <div className="text-center">
-          <h2 className="mb-4">Welcome, <strong>{user.username}</strong>!</h2>
-          <button className="btn btn-primary" onClick={handleLogout}>Log Out</button>
-        </div>
-      ) : (
-        <div className="text-center">
-          <p className="mb-4">You are not logged in</p>
-          <Link to="/login" className="btn btn-primary">Log In</Link>
-        </div>
-      )}
+    <div className="home-container d-flex justify-content-center align-items-center vh-100">
+      <div className="profile-settings p-4 border rounded bg-light shadow">
+        <h1 className="text-center mb-4">Welcome to ChatApp!</h1>
+        {user ? (
+          <div>
+            <h2 className="mb-4">Hello, <strong>{user.username}</strong>!</h2>
+            <div className="btn-group" role="group">
+              <button className="btn btn-outline-primary" onClick={handleLogout}>Log Out</button>
+              <button className="btn btn-outline-primary" onClick={visitMainPage}>Go to Main Page</button>
+            </div>
+          </div>
+        ) : (
+          <div className="text-center">
+            <p className="mb-4">You are not logged in</p>
+            <Link to="/login" className="btn btn-primary">Log In</Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
 
-export default ProfileSettings;
+export default Home;

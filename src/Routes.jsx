@@ -11,12 +11,14 @@ import PfpTest from './routes/PfpTest';
 import AddFriend from './routes/AddFriend';
 import CreateGroup from './routes/CreateGroup';
 import JoinGroup from './routes/JoinGroup';
+import Home from './routes/Home';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>   
 
-        <Route index element={<MainPage />} />
+        <Route index element={<Home/>} />
+        <Route path= "mainpage" element={<MainPage/>} />
         <Route path="admin" element={<Admin />} />
         <Route path="page" element={<Page />} />
         <Route path = "phototest" element={<PhotoTest />} />

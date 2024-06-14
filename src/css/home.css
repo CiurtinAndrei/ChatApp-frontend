@@ -1,0 +1,39 @@
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f8f9fa;
+  }
+  
+  .profile-settings {
+    max-width: 400px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+  
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .btn-group .btn {
+    flex: 1;
+    margin: 0 5px;
+  }
+  
+  .btn-group .btn:first-child {
+    margin-left: 0;
+  }
+  
+  .btn-group .btn:last-child {
+    margin-right: 0;
+  }
+  
