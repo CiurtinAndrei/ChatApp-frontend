@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import "../../css/chatSection.css";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 function ChatSection({ groupId }) {
   const [messages, setMessages] = useState([]);
@@ -9,6 +10,7 @@ function ChatSection({ groupId }) {
   const [error, setError] = useState(null);
   const [showPhotoUpload, setShowPhotoUpload] = useState(false);
   const chatEndRef = useRef(null);
+  const errorTimeoutRef = useRef(null);
 
   const getMessages = async (id) => {
     const url = `http://localhost:32767/api/conversations/messages/${id}`;
@@ -22,12 +24,23 @@ function ChatSection({ groupId }) {
       setMessages(response.data);
     } catch (error) {
       console.error('Error fetching messages:', error.response ? error.response.data : error.message);
+      showError('Error fetching messages');
     }
+  };
+
+  const showError = (message) => {
+    setError(message);
+    if (errorTimeoutRef.current) {
+      clearTimeout(errorTimeoutRef.current);
+    }
+    errorTimeoutRef.current = setTimeout(() => {
+      setError(null);
+    }, 3000); // Adjust the duration as needed
   };
 
   const savePhoto = async () => {
     if (!selectedPhoto) {
-      setError('Please select a photo to upload');
+      showError('Please select a photo to upload');
       return;
     }
 
@@ -67,6 +80,7 @@ function ChatSection({ groupId }) {
         getMessages(groupId);
       } catch (error) {
         console.error('Error uploading photo and sending message:', error.response ? error.response.data : error.message);
+        showError('Error uploading photo and sending message');
       }
     };
 
@@ -77,7 +91,7 @@ function ChatSection({ groupId }) {
     e.preventDefault();
 
     if (newMessageContent.trim() === '') {
-      setError('');
+      showError('Message content cannot be empty');
       return;
     }
 
@@ -100,7 +114,7 @@ function ChatSection({ groupId }) {
         setNewMessageContent(''); // Clear the input field
         getMessages(groupId); // Refresh messages
       } catch (error) {
-        setError(error.response ? error.response.data.error : error.message);
+        showError(error.response ? error.response.data.error : error.message);
         console.error('Error sending message:', error.response ? error.response.data : error.message);
       }
     }
@@ -184,8 +198,19 @@ function ChatSection({ groupId }) {
             <button type="button" className="btn btn-secondary mt-2" onClick={savePhoto}>Upload Photo</button>
           </div>
         )}
-        {error && <div className="text-danger mt-2">{error}</div>}
       </div>
+      {error && (
+        <div className="toast-container position-fixed bottom-0 end-0 p-3">
+          <div className="toast show align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div className="d-flex">
+              <div className="toast-body">
+                {error}
+              </div>
+              <button type="button" className="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close" onClick={() => setError(null)}></button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
