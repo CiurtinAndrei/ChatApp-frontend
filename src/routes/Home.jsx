@@ -62,7 +62,11 @@ const Home = () => {
         ) : (
           <div className="text-center">
             <p className="mb-4">You are not logged in</p>
-            <Link to="/login" className="btn btn-primary">Log In</Link>
+            <Link to="/login" className="btn btn-primary mb-4">Log In</Link>
+            <div>
+              <span>New to ChatApp? </span>
+              <Link to="/register" className="btn btn-secondary">Register Here</Link>
+            </div>
           </div>
         )}
       </div>

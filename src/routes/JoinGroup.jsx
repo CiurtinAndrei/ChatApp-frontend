@@ -71,7 +71,7 @@ const JoinGroup = () => {
               </div>
             ))
           ) : (
-            <div>No groups available.</div>
+            <div>No groups available to join.</div>
           )}
         </div>
       )}

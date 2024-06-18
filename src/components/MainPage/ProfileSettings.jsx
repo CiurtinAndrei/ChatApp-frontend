@@ -37,19 +37,19 @@ const ProfileSettings = () => {
   }, []);
 
   const handleLogout = () => {
-    // Implement logout functionality, clear local storage, etc.
     localStorage.removeItem('token');
     localStorage.removeItem('id');
-    setUser(null); // Clear user state
+    setUser(null);
     navigate('/');
   };
 
   return (
-    <div className="profile-settings p-4 border rounded bg-light">
+    <div className="profile-settings p-4 border rounded bg-light d-flex justify-content-center">
       {user ? (
         <div className="text-center">
           <h2 className="mb-4">Welcome, <strong>{user.username}</strong>!</h2>
-          <button className="btn btn-primary" onClick={handleLogout}>Log Out</button>
+          <button className="btn btn-primary me-2" onClick={handleLogout}>Log Out</button>
+          <Link to="/addfriend" className="btn btn-primary">Add Friend</Link>
         </div>
       ) : (
         <div className="text-center">
