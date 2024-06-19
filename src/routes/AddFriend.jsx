@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AddFriend = () => {
   const initialValues = {
@@ -8,6 +9,7 @@ const AddFriend = () => {
   };
 
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     const url = 'http://localhost:32767/friends/add';
@@ -22,7 +24,8 @@ const AddFriend = () => {
       });
       console.log('Friend added successfully:', response.data);
       resetForm();
-      setError('');  // Clear error on success
+      setError('');  
+      navigate('/mainpage'); 
     } catch (error) {
       const errorMessage = error.response && error.response.data && error.response.data.message
         ? error.response.data.message
@@ -35,31 +38,40 @@ const AddFriend = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Add Friend</h2>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <Field
-                type="text"
-                id="username"
-                name="username"
-                className="form-control"
-                placeholder="Enter friend's username"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
-              {isSubmitting ? 'Adding...' : 'Add Friend'}
-            </button>
-          </Form>
-        )}
-      </Formik>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="container mt-5">
+      <div className="card shadow-sm">
+        <div className="card-body">
+          <h2 className="card-title mb-4">Add Friend</h2>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <div className="mb-3">
+                  <label htmlFor="username" className="form-label">Username</label>
+                  <Field
+                    type="text"
+                    id="username"
+                    name="username"
+                    className="form-control"
+                    placeholder="Enter friend's username"
+                  />
+                </div>
+                <div className="d-grid gap-2">
+                  <button type="submit" className="btn btn-primary btn-sm" disabled={isSubmitting}>
+                    {isSubmitting ? 'Adding...' : 'Add Friend'}
+                  </button>
+                  <button type="button" className="btn btn-secondary btn-sm" onClick={() => navigate('/mainpage')}>
+                    Cancel
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+          {error && <p className="text-danger mt-3">{error}</p>}
+        </div>
+      </div>
     </div>
   );
 };

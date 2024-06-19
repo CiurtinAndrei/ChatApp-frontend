@@ -21,10 +21,16 @@ function ChatSection({ groupId }) {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      setMessages(response.data);
+      if (response.data && response.data.length > 0) {
+        setMessages(response.data);
+      } else {
+        setMessages([]); 
+      }
     } catch (error) {
-      console.error('Error fetching messages:', error.response ? error.response.data : error.message);
-      showError('Error fetching messages');
+      if (error.response && error.response.status !== 404) {
+        console.error('Error fetching messages:', error.response ? error.response.data : error.message);
+        showError('Error fetching messages');
+      }
     }
   };
 
@@ -35,7 +41,7 @@ function ChatSection({ groupId }) {
     }
     errorTimeoutRef.current = setTimeout(() => {
       setError(null);
-    }, 3000); // Adjust the duration as needed
+    }, 3000); 
   };
 
   const savePhoto = async () => {
@@ -111,8 +117,8 @@ function ChatSection({ groupId }) {
             'Authorization': `Bearer ${localStorage.getItem('token')}`,
           },
         });
-        setNewMessageContent(''); // Clear the input field
-        getMessages(groupId); // Refresh messages
+        setNewMessageContent(''); 
+        getMessages(groupId); 
       } catch (error) {
         showError(error.response ? error.response.data.error : error.message);
         console.error('Error sending message:', error.response ? error.response.data : error.message);
@@ -127,10 +133,10 @@ function ChatSection({ groupId }) {
   }, [groupId]);
 
   useEffect(() => {
-    // Scroll to the bottom after a short delay to allow messages to render
+  
     const timeoutId = setTimeout(() => {
       scrollToBottom();
-    }, 100); // Adjust the delay time as needed
+    }, 100); 
 
     return () => clearTimeout(timeoutId);
   }, [messages]);
@@ -141,12 +147,12 @@ function ChatSection({ groupId }) {
     }
   };
 
-  // Cleanup messages when groupId changes
+ 
   useEffect(() => {
     setMessages([]);
   }, [groupId]);
 
-  // Function to convert UTC timestamp to GMT+3:00
+  
   const convertToGMTPlus3 = (utcTimestamp) => {
     const utcDate = new Date(utcTimestamp);
     const gmtPlus3Date = new Date(utcDate.getTime());
@@ -157,7 +163,7 @@ function ChatSection({ groupId }) {
     <div className="d-flex flex-column h-100">
       <div className="flex-grow-1 p-3 chat-section">
         <div className="d-flex flex-column">
-          {messages.length > 0 && messages.map((message, index) => (
+          {messages.length > 0 ? messages.map((message, index) => (
             <div
               key={index}
               className={`alert ${message.senderId === 'me' ? 'alert-primary align-self-end' : 'alert-secondary'}`}
@@ -169,7 +175,7 @@ function ChatSection({ groupId }) {
               <div>{message.content}</div>
               {message.mediaId && <img src={`http://localhost:32767/api/images/view/resized/${message.mediaId}`} alt="Message media" className="img-fluid mt-2" />}
             </div>
-          ))}
+          )) : <p>No messages in this group yet.</p>}
           <div ref={chatEndRef}></div>
         </div>
       </div>

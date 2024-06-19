@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import "../css/home.css"; // Ensure you have a CSS file for styling
+import "../css/home.css"; 
 
 async function checkLogin() {
   if (localStorage.getItem('token') != null) {

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const CreateGroup = () => {
   const [friends, setFriends] = useState([]);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const initialValues = {
     name: '',
-    status: false, // Set initial value to false
+    status: false,
     memberlist: [],
   };
 
@@ -29,7 +31,8 @@ const CreateGroup = () => {
       });
       console.log('Group added successfully:', response.data);
       resetForm();
-      setError('');  // Clear error on success
+      setError('');  
+      navigate('/mainpage'); 
     } catch (error) {
       const errorMessage = error.response && error.response.data && error.response.data.message
         ? error.response.data.message
@@ -50,9 +53,9 @@ const CreateGroup = () => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
       });
-      console.log('API response:', response.data); // Log API response
-      setFriends(response.data || []); // Ensure the data is an array
-      console.log('Friends:', response.data.friendsData); // Log friends array
+      console.log('API response:', response.data); 
+      setFriends(response.data || []); 
+      console.log('Friends:', response.data.friendsData); 
     } catch (error) {
       console.error('Error getting friends:', error.response ? error.response.data : error.message);
     }
@@ -64,7 +67,12 @@ const CreateGroup = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Create Group</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="mb-0">Create Group</h2>
+        <button className="btn btn-secondary" onClick={() => navigate('/mainpage')}>
+          Cancel
+        </button>
+      </div>
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
@@ -131,7 +139,19 @@ const CreateGroup = () => {
           </Form>
         )}
       </Formik>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && (
+        <div className="toast-container position-fixed bottom-0 end-0 p-3">
+          <div className="toast show">
+            <div className="toast-header">
+              <strong className="me-auto">Error</strong>
+              <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div className="toast-body">
+              {error}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 .chat-section {
-    max-height: 88vh; /* Adjust this value based on your layout */
+    max-height: 88vh; 
     overflow-y: auto;
   }
   .photo-upload-popup {

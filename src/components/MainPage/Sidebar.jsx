@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import "../../css/sidebar.css"; // Assuming you have a separate CSS file for sidebar styling
+import { Link } from 'react-router-dom'; 
+import "../../css/sidebar.css"; 
 
 function Sidebar({ onGroupSelect }) {
   const [groups, setGroups] = useState([]);
@@ -35,7 +35,6 @@ function Sidebar({ onGroupSelect }) {
     <div className="sidebar-container">
       <div className="d-flex justify-content-between align-items-center px-3 mb-3">
         <h4 className="mb-0">Groups</h4>
-        {/* Join Group button positioned to the right of the Groups title */}
         <Link to="/joingroup" className="btn btn-success">
           Join Group
         </Link>
@@ -59,7 +58,6 @@ function Sidebar({ onGroupSelect }) {
         </ul>
       </div>
       
-      {/* Fixed create group button at the bottom of the sidebar */}
       <div className="create-group-button">
         <Link to="/creategroup" className="btn btn-primary btn-block">
           Create New Group

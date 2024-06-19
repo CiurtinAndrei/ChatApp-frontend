@@ -57,7 +57,7 @@ const PhotoTest = () => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
       });
-      setPhotoID('');  // Clear the photo ID after deletion
+      setPhotoID(''); 
     } catch (error) {
       console.error('Error deleting image:', error.response ? error.response.data : error.message);
     }

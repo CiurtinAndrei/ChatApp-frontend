@@ -1,0 +1,21 @@
+.join-group-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .group-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .group-item {
+    margin: 10px;
+  }
+  
+  .card {
+    width: 100%;
+  }
+  
