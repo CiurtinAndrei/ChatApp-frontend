@@ -33,14 +33,14 @@ function Sidebar({ onGroupSelect }) {
 
   return (
     <div className="sidebar-container">
-      <div className="d-flex justify-content-between align-items-center px-3 mb-3">
+      <div className="header-container d-flex justify-content-between align-items-center mb-3">
         <h4 className="mb-0">Groups</h4>
         <Link to="/joingroup" className="btn btn-success">
           Join Group
         </Link>
       </div>
 
-      <div className="p-3">
+      <div className="group-list-container">
         <ul className="list-group mb-3">
           {groups.length > 0 ?  
             groups.map((group, index) => (
@@ -48,7 +48,6 @@ function Sidebar({ onGroupSelect }) {
                 key={index} 
                 className={`list-group-item ${selectedGroupId === group._id ? 'active' : ''}`}
                 onClick={() => handleGroupSelect(group._id)}
-                style={{ cursor: 'pointer' }}
               >
                 {group && group.groupName ? group.groupName : 'No group name available'}
               </li>
