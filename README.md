@@ -10,4 +10,10 @@ Here are the main features of **ChatApp**:
 
 ***
 
-This repository represents the **frontend** part of **Chatapp** and was developed using **React** which facilitates the creation of dynamic web pages. The UI is user-friendly and holds all essential user controls in one place. Message rendering is quick and the user can seamlessly switch between groups. User and group search was also made easy as a result of the clean and responsive interface. The creation of multiple web routes was made easy with the use of the **React Router-DOM** module. **React hooks** ensure that the pages are updated dynamically and without page refresh, keeping the user experience uninterrupted.
+This repository represents the **frontend** part of **Chatapp** and was developed using **React** which facilitates the creation of dynamic web pages. 
+
+* The UI is user-friendly and holds all essential user controls in one place;
+* Message rendering is quick and the user can seamlessly switch between groups; 
+* User and group search was also made easy as a result of the clean and responsive interface; 
+* The creation of multiple web routes was made easy with the use of the **React Router-DOM** module; |
+* **React hooks** ensure that the pages are updated dynamically and without page refresh, keeping the user experience uninterrupted.
